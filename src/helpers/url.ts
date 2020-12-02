@@ -11,6 +11,11 @@ import { isDate, isObject } from './util'
  */
 
 export function buildURL(url: string, params?: any): string {
+  const markIndex = url.indexOf('#')
+  if (markIndex !== -1) {
+    url = url.slice(0, markIndex)
+  }
+
   if (!params) {
     return url
   }
@@ -42,10 +47,6 @@ export function buildURL(url: string, params?: any): string {
   let serializedParams: string = parts.join('&')
 
   if (serializedParams) {
-    const markIndex = url.indexOf('#')
-    if (markIndex !== -1) {
-      url = url.slice(0, markIndex)
-    }
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
   }
 
