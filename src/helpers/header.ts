@@ -25,3 +25,28 @@ function normalizeHeaderName(header: any, normalizeName: string): any {
     }
   })
 }
+
+/**
+ * 將response header 從字符串改成物件格式
+ */
+export function parseHeader(headers: string): any {
+  let parsed = Object.create(null)
+  if (!headers) {
+    return parsed
+  }
+
+  headers.split('\r\n').forEach(line => {
+    let [key, val] = line.split(':')
+    key = key.trim().toLowerCase()
+    if (!key) {
+      return
+    }
+
+    if (val) {
+      val = val.trim()
+    }
+    parsed[key] = val
+  })
+
+  return parsed
+}
