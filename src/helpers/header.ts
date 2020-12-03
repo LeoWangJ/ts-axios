@@ -1,4 +1,3 @@
-import { head } from 'shelljs'
 import { isObject } from './util'
 
 /**
