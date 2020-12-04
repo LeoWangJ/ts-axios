@@ -16,7 +16,7 @@ export function transformResponse(data: any): any {
     try {
       data = JSON.parse(data)
     } catch (e) {
-      console.log(e)
+      // do nothing
     }
   }
   return data

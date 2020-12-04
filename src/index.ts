@@ -27,7 +27,7 @@ function transformRequestData(config: AxiosRequestConfig): any {
   return transformRequest(data)
 }
 
-function transformResponseData(res: AxiosResponse): any {
+function transformResponseData(res: AxiosResponse): AxiosResponse {
   res.data = transformResponse(res.data)
   return res
 }
