@@ -1,4 +1,5 @@
-import { isObject } from './util'
+import { Method } from '../types'
+import { deepMerge, isObject } from './util'
 
 /**
  * 當用戶data當作JSON傳入時, 自動添加Content-Type
@@ -49,4 +50,19 @@ export function parseHeader(headers: string): any {
   })
 
   return parsed
+}
+
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers
+  }
+  headers = deepMerge(headers.common || {}, headers[method] || {}, headers)
+
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+
+  return headers
 }
