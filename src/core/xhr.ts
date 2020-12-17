@@ -4,12 +4,19 @@ import { createError } from '../helpers/error'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    let { data = null, method = 'get', url, headers, responseType, timeout } = config
+    let { data = null, method = 'get', url, headers, responseType, timeout, cancelToken } = config
 
     const request = new XMLHttpRequest()
 
     if (responseType) {
       request.responseType = responseType
+    }
+
+    if (cancelToken) {
+      cancelToken.promise.then(reason => {
+        request.abort()
+        reject(reason)
+      })
     }
 
     request.open(method.toUpperCase(), url!)
