@@ -6,6 +6,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const WebpackConfig = require('./webpack.config')
 const multipart = require('connect-multiparty')
+const atob = require('atob')
 const path = require('path')
 require('./server2')
 
