@@ -109,34 +109,42 @@ document.cookie = 'a=b'
 // })
 
 
-axios.get('/more/get', {
-  params: new URLSearchParams('a=b&c=d')
-}).then(res => {
-  console.log(res)
-})
+// axios.get('/more/get', {
+//   params: new URLSearchParams('a=b&c=d')
+// }).then(res => {
+//   console.log(res)
+// })
 
-axios.get('/more/get', {
-  params: {
-    a: 1,
-    b: 2,
-    c: ['a', 'b', 'c']
-  }
-}).then(res => {
-  console.log(res)
-})
+// axios.get('/more/get', {
+//   params: {
+//     a: 1,
+//     b: 2,
+//     c: ['a', 'b', 'c']
+//   }
+// }).then(res => {
+//   console.log(res)
+// })
+
+// const instance = axios.create({
+//   paramsSerializer(params) {
+//     return qs.stringify(params, { arrayFormat: 'brackets' })
+//   }
+// })
+
+// instance.get('/more/get', {
+//   params: {
+//     a: 1,
+//     b: 2,
+//     c: ['a', 'b', 'c']
+//   }
+// }).then(res => {
+//   console.log(res)
+// })
 
 const instance = axios.create({
-  paramsSerializer(params) {
-    return qs.stringify(params, { arrayFormat: 'brackets' })
-  }
+  baseURL: 'https://assets.292801.com/'
 })
 
-instance.get('/more/get', {
-  params: {
-    a: 1,
-    b: 2,
-    c: ['a', 'b', 'c']
-  }
-}).then(res => {
-  console.log(res)
-})
+instance.get('awcp/lotteries/WE4Hmjd08md6AA4ULCEjt4FL3eJdcIASdV70XF3U.png')
+
+instance.get('https://assets.292801.com/awcp/lotteries/WE4Hmjd08md6AA4ULCEjt4FL3eJdcIASdV70XF3U.png')
