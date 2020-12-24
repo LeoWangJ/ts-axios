@@ -1,4 +1,4 @@
-import { isDate, isObject } from './util'
+import { isDate, isObject, isURLSearchParams } from './util'
 /**
  * 處理請求 URL 參數
  * 1. 為數組 ex: foo:['bar', 'baz'] -> ?foo[]=bar&foo[]=baz
@@ -10,7 +10,11 @@ import { isDate, isObject } from './util'
  * 7. 保留url中的參數
  */
 
-export function buildURL(url: string, params?: any): string {
+export function buildURL(
+  url: string,
+  params?: any,
+  paramsSerializer?: (params: any) => string
+): string {
   const markIndex = url.indexOf('#')
   if (markIndex !== -1) {
     url = url.slice(0, markIndex)
@@ -19,37 +23,44 @@ export function buildURL(url: string, params?: any): string {
   if (!params) {
     return url
   }
-  const parts: string[] = []
+  let serializedParams
 
-  Object.keys(params).forEach(key => {
-    let val = params[key]
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params)
+  } else if (isURLSearchParams(params)) {
+    serializedParams = params.toString()
+  } else {
+    const parts: string[] = []
 
-    if (val === null || val === undefined) {
-      return
-    }
-    let values: string[]
-    if (Array.isArray(val)) {
-      values = val
-      key += '[]'
-    } else {
-      values = [val]
-    }
+    Object.keys(params).forEach(key => {
+      let val = params[key]
 
-    values.forEach(val => {
-      if (isDate(val)) {
-        val = val.toISOString()
-      } else if (isObject(val)) {
-        val = JSON.stringify(val)
+      if (val === null || val === undefined) {
+        return
       }
-      parts.push(`${encode(key)}=${encode(val)}`)
+      let values: string[]
+      if (Array.isArray(val)) {
+        values = val
+        key += '[]'
+      } else {
+        values = [val]
+      }
+
+      values.forEach(val => {
+        if (isDate(val)) {
+          val = val.toISOString()
+        } else if (isObject(val)) {
+          val = JSON.stringify(val)
+        }
+        parts.push(`${encode(key)}=${encode(val)}`)
+      })
     })
-  })
-  let serializedParams: string = parts.join('&')
+    serializedParams = parts.join('&')
+  }
 
   if (serializedParams) {
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
   }
-
   return url
 }
 
