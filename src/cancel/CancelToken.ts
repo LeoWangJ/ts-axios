@@ -8,13 +8,6 @@ interface ResolvePromise {
 export default class CancelToken {
   promise: Promise<Cancel>
   reason?: Cancel
-  throwIfRequested(): void
-
-  throwIfRequested(): void {
-    if (this.reason) {
-      throw this.reason
-    }
-  }
 
   constructor(executor: CancelExecutor) {
     let resolvePromise: ResolvePromise
@@ -29,6 +22,12 @@ export default class CancelToken {
       this.reason = new Cancel(message)
       resolvePromise(this.reason)
     })
+  }
+
+  throwIfRequested(): void {
+    if (this.reason) {
+      throw this.reason
+    }
   }
 
   static source(): CancelTokenSource {
